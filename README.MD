@@ -6,7 +6,9 @@ W zadaniu 3 rozbudowałem środowisko o usługę app, własną sieć backend-net
 
 ## Zadanie 1
 Dockerfile z nginx + własny index.html
+
 ![z1i1](https://github.com/Rzelonek/lab4-devops/blob/main/lab4zad1-dockerfile/image.png?raw=true)
+
 ## Zadanie 2
 PostgreSQL w docker-compose + trwały wolumin
 
