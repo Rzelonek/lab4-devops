@@ -1,0 +1,25 @@
+1. Dlaczego DATABASE_HOST: db działa?
+
+Bo Docker Compose uruchamia usługi we wspólnej sieci i udostępnia w niej wewnętrzny DNS. Nazwa usługi staje się nazwą hosta. Dlatego db rozwiązuje się do adresu IP kontenera bazy. PDF na stronie 5 wskazuje dokładnie taki mechanizm dla DATABASE_HOST: db.
+
+2. Czy trzeba mapować port 5432 na hosta, żeby app łączyła się z db?
+
+Nie. Jeśli app i db są w tej samej sieci Dockera, app łączy się z db po wewnętrznej sieci kontenerów. Mapowanie 5432:5432 jest potrzebne tylko wtedy, gdy chcesz łączyć się z bazą z komputera hosta, np. z DBeaverem albo psql na Windowsie.
+
+3. Bridge network vs host network
+
+Bridge network
+
+standardowa sieć Dockera,
+daje izolację,
+kontenery komunikują się po nazwach usług,
+najczęściej używana.
+
+Host network
+
+kontener używa bezpośrednio sieci hosta,
+mniej izolacji,
+czasem lepsza wydajność,
+zwykle stosowana w specyficznych przypadkach, np. gdy potrzebujesz minimalnych narzutów sieciowych albo bezpośredniego dostępu do interfejsów hosta.
+
+Na zaliczenie najlepiej powiedzieć, że dla typowych aplikacji Compose wybór to bridge, a host tylko w szczególnych scenariuszach.

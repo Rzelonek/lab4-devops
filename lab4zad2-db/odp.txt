@@ -1,0 +1,24 @@
+1. Named volume vs bind mount
+
+Named volume
+
+zarządzany przez Dockera,
+Docker sam trzyma dane w swojej przestrzeni,
+jest wygodny, bezpieczny i przenośny.
+
+Bind mount
+
+mapuje konkretny katalog z hosta, np. C:\dane do kontenera,
+zależy od struktury systemu hosta,
+łatwiej o problemy z uprawnieniami i przenoszeniem projektu.
+
+Dlaczego named volume jest lepszy dla bazy danych?
+Bo jest bardziej stabilny, mniej zależny od hosta, lepiej współpracuje z Dockerem i jest standardowym wyborem dla danych bazodanowych. PDF też akcentuje użycie nazwanego woluminu dla Postgresa.
+
+2. Ryzyko braku woluminu
+
+Jeśli nie zdefiniujesz woluminu, dane bazy będą zapisane tylko w warstwie zapisywalnej kontenera. Po usunięciu kontenera możesz stracić całą bazę danych.
+
+3. Jak Docker Compose tworzy sieć automatycznie?
+
+Compose tworzy domyślną sieć typu bridge dla projektu, jeśli nie zdefiniujesz własnej. Wszystkie usługi w tym samym pliku docker-compose.yaml trafiają do tej sieci i mogą komunikować się po nazwach usług. To właśnie fundament pod zadanie 3.

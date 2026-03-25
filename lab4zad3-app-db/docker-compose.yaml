@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: lab4-db
+    environment:
+      POSTGRES_USER: student
+      POSTGRES_PASSWORD: student123
+      POSTGRES_DB: lab4db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+
+  app:
+    image: alpine:latest
+    container_name: lab4-app
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DB_USER: student
+      DB_PASSWORD: student123
+      DB_NAME: lab4db
+    command: >
+      sh -c "apk add --no-cache postgresql-client iputils &&
+             sleep 5 &&
+             tail -f /dev/null"
+    networks:
+      - backend-net
+
+volumes:
+  postgres_data:
+
+networks:
+  backend-net:
+    driver: bridge

@@ -1,0 +1,32 @@
+1. Dlaczego używa się rm -rf /var/cache/apk/* po instalacji?
+
+Bo po instalacji pakietów zostają pliki cache menedżera pakietów. Usunięcie ich zmniejsza końcowy rozmiar obrazu. W Dockerze każda instrukcja tworzy warstwę, więc najlepiej robić instalację i czyszczenie w jednym kroku, żeby nie przechowywać niepotrzebnych danych w warstwach obrazu. PDF też wskazuje na optymalizację warstw obrazu.
+
+Uwaga praktyczna: przy apk add --no-cache curl Alpine i tak nie zapisuje klasycznego cache, więc to jest jeszcze lepsza forma.
+
+2. Shell form vs exec form
+
+Przykład shell form:
+
+CMD nginx -g "daemon off;"
+
+Przykład exec form:
+
+CMD ["nginx", "-g", "daemon off;"]
+
+Exec form jest zalecana, bo:
+
+nie uruchamia dodatkowej powłoki,
+lepiej przekazuje sygnały do procesu,
+poprawnie działa jako proces PID 1 w kontenerze,
+jest bezpieczniejsza i bardziej przewidywalna.
+3. Różnica między CMD i ENTRYPOINT
+ENTRYPOINT ustawia główny program uruchamiany zawsze.
+CMD ustawia domyślne argumenty albo domyślne polecenie, które można łatwo nadpisać.
+
+W Twoim przykładzie:
+
+ENTRYPOINT ["nginx"]
+CMD ["-g", "daemon off;"]
+
+Czyli kontener uruchamia nginx, a CMD daje mu domyślne argumenty. To dokładnie odpowiada wskazówce z PDF o odtworzeniu sposobu działania obrazu Nginx.
